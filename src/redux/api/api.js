@@ -3,24 +3,24 @@ import { server } from "../../constants/config";
 
 const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
-  credentials: "include",
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: `${server}/api/v1/`,
+    credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set('Content-Type', 'application/json');
+      return headers;
+    },
+  }),
   tagTypes: ["Chat", "User", "Message"],
-
   endpoints: (builder) => ({
+    // Remove credentials from individual endpoints since it's set in baseQuery
     myChats: builder.query({
-      query: () => ({
-        url: "chat/my",
-        credentials: "include",
-      }),
+      query: () => "chat/my",
       providesTags: ["Chat"],
     }),
-
+    // Update other endpoints similarly by removing the credentials field
     searchUser: builder.query({
-      query: (name) => ({
-        url: `user/search?name=${name}`,
-        credentials: "include",
-      }),
+      query: (name) => `user/search?name=${name}`,
       providesTags: ["User"],
     }),
 
