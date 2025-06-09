@@ -4,6 +4,7 @@ import { server } from "../../constants/config";
 const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
+  credentials: "include",
   tagTypes: ["Chat", "User", "Message"],
 
   endpoints: (builder) => ({
