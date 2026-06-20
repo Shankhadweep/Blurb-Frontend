@@ -94,7 +94,18 @@ const Chat = ({ chatId, user }) => {
     e.preventDefault();
 
     if (!message.trim()) return;
+    const tempMessage = {
+    _id: Date.now().toString(),
+    content: message,
+    sender: {
+      _id: user._id,
+      name: user.name,
+    },
+    chat: chatId,
+    createdAt: new Date().toISOString(),
+  };
 
+  setMessages((prev) => [...prev, tempMessage]);
     // Emitting the message to the server
     socket.emit(NEW_MESSAGE, { chatId, members, message });
     setMessage("");
